@@ -1,5 +1,9 @@
+from textnode import TextNode, TextType
+
+
 def main():
-    print("hello world")
+    new_text_node = TextNode("This is some text", TextType.plain)
+    print(new_text_node)
 
 
 if __name__ == "__main__":
