@@ -12,9 +12,11 @@ def split_nodes_dilimiter(old_nodes, delimiter, text_type):
             else:
                 for i in range(0, len(string_split)):
                     if i % 2 == 0:
-                        new_nodes.append(TextNode(string_split[i], TextType.plain))
+                        if string_split[i]:
+                            new_nodes.append(TextNode(string_split[i], TextType.plain))
                     else:
-                        new_nodes.append(TextNode(string_split[i], text_type))
+                        if string_split[i]:
+                            new_nodes.append(TextNode(string_split[i], text_type))
 
         else:
             new_nodes.append(node)
