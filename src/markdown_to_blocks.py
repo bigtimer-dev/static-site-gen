@@ -1,6 +1,15 @@
 from enum import Enum
 
 
+class BlockType(Enum):
+    paragraph = "paragraph"
+    heading = "heading"
+    code = "code"
+    quote = "quote"
+    unordered_list = "unordered_list"
+    ordered_list = "ordered_list"
+
+
 def markdown_to_blocks(md_text):
     raw_blocks = md_text.strip().split("\n\n")
 
@@ -12,15 +21,6 @@ def markdown_to_blocks(md_text):
             blocks.append("\n".join(clean_lines))
 
     return blocks
-
-
-class BlockType(Enum):
-    paragraph = "paragraph"
-    heading = "heading"
-    code = "code"
-    quote = "quote"
-    unordered_list = "unordered_list"
-    ordered_list = "ordered_list"
 
 
 def block_to_block_type(block):
