@@ -11,14 +11,14 @@ class BlockType(Enum):
 
 
 def markdown_to_blocks(md_text):
-    raw_blocks = md_text.strip().split("\n\n")
-
+    raw_blocks = md_text.split("\n\n")
     blocks = []
-    for block in raw_blocks:
-        lines = block.split("\n")
-        clean_lines = [line.strip() for line in lines if line.strip()]
-        if clean_lines:
-            blocks.append("\n".join(clean_lines))
+    for raw in raw_blocks:
+        if raw.strip() == "":
+            continue
+        lines = raw.split("\n")
+        cleaned = [line.strip() for line in lines if line.strip() != ""]
+        blocks.append("\n".join(cleaned))
 
     return blocks
 
@@ -36,7 +36,7 @@ def block_to_block_type(block):
     if lines[0].startswith("```") and lines[-1].endswith("```"):
         return BlockType.code
 
-    if all(line.startswith(">") for line in lines):
+    if all(line.startswith("> ") for line in lines):
         return BlockType.quote
 
     if all(line.startswith("- ") for line in lines):

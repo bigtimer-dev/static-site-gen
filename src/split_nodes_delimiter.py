@@ -32,6 +32,7 @@ def split_nodes_images(old_nodes):
             list_of_extracts = extract_markdown_images(current_text)
             if len(list_of_extracts) == 0:
                 new_nodes.append(old_node)
+                continue
             else:
                 for alt, url in list_of_extracts:
                     split_text = current_text.split(f"![{alt}]({url})", maxsplit=1)
@@ -55,6 +56,7 @@ def split_nodes_link(old_nodes):
             list_of_extracts = extract_markdown_link(current_text)
             if len(list_of_extracts) == 0:
                 new_nodes.append(old_node)
+                continue
             else:
                 for alt, url in list_of_extracts:
                     split_text = current_text.split(f"[{alt}]({url})", maxsplit=1)

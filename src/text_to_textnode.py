@@ -8,9 +8,9 @@ from split_nodes_delimiter import (
 
 def text_to_textnode(text):
     node = [TextNode(text, TextType.plain)]
-    bold = split_nodes_dilimiter(node, "**", TextType.bold)
-    italic = split_nodes_dilimiter(bold, "_", TextType.italic)
-    code = split_nodes_dilimiter(italic, "`", TextType.code)
-    images = split_nodes_images(code)
-    link = split_nodes_link(images)
-    return link
+    node = split_nodes_dilimiter(node, "**", TextType.bold)
+    node = split_nodes_dilimiter(node, "_", TextType.italic)
+    node = split_nodes_dilimiter(node, "`", TextType.code)
+    node = split_nodes_images(node)
+    node = split_nodes_link(node)
+    return node
