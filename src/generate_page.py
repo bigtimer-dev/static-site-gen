@@ -1,3 +1,4 @@
+from os.path import exists
 from markdown_to_html import markdown_to_html_node
 from extract_title import extract_title
 import os
@@ -23,3 +24,26 @@ def generate_page(from_path, template_path, dest_path):
         os.makedirs(parent_dir, exist_ok=True)
     with open(dest_path, "w") as file:
         file.write(template_content)
+
+
+def generate_page_recursive(dir_path_content, template_path, dest_dir_path):
+    if os.path.exists(dir_path_content):
+        contents_path = os.listdir(dir_path_content)
+        for content in contents_path:
+            full_path_content = os.path.join(dir_path_content, content)
+            full_path_dest = os.path.join(dest_dir_path, content)
+            if os.path.isfile(full_path_content) and full_path_content.endswith(".md"):
+                full_with_html = full_path_dest[:-3] + ".html"
+                generate_page(full_path_content, template_path, full_with_html)
+
+            elif os.path.isdir(full_path_content):
+                generate_page_recursive(
+                    full_path_content, template_path, full_path_dest
+                )
+
+            else:
+                raise Exception(
+                    f"Found invalid entry: {full_path_content}. Only .md files and directories are allowed."
+                )
+    else:
+        raise FileNotFoundError(f"{dir_path_content} does not exist")
