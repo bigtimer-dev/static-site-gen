@@ -43,19 +43,18 @@ def block_to_childs(block):
 
     elif type_block == BlockType.quote:
         lines = block.split("\n")
-        list_of_line = []
+        cleaned = []
         for line in lines:
-            if line[0:2] == "> ":
-                line = line.replace("> ", "")
-                list_of_line.append(line)
+            if line.startswith("> "):
+                cleaned.append(line[2:].strip())
+            elif line.startswith(">"):
+                cleaned.append(line[1:].strip())
             else:
-                line = line.replace(">", "")
-                list_of_line.append(line)
-
-        lines = " ".join(list_of_line)
-        text_nodes = text_to_textnode(lines)
-        childs = help_txt_node_to_html_node(text_nodes)
-        return ParentNode("blockquote", childs)
+                cleaned.append(line.strip())
+        joined = " ".join([line for line in cleaned if line])
+        text_nodes = text_to_textnode(joined)
+        children = help_txt_node_to_html_node(text_nodes)
+        return ParentNode("blockquote", children)
 
     elif type_block == BlockType.ordered_list:
         lines = block.split("\n")

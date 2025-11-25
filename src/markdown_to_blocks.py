@@ -16,6 +16,9 @@ def markdown_to_blocks(md_text):
     for raw in raw_blocks:
         if raw.strip() == "":
             continue
+        if raw.startswith("```") and raw.endswith("```"):
+            blocks.append(raw)
+            continue
         lines = raw.split("\n")
         cleaned = [line.strip() for line in lines if line.strip() != ""]
         blocks.append("\n".join(cleaned))
@@ -36,7 +39,7 @@ def block_to_block_type(block):
     if lines[0].startswith("```") and lines[-1].endswith("```"):
         return BlockType.code
 
-    if all(line.startswith("> ") for line in lines):
+    if all(line.startswith(">") for line in lines):
         return BlockType.quote
 
     if all(line.startswith("- ") for line in lines):
