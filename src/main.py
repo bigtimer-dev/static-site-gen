@@ -2,18 +2,24 @@ from generate_page import generate_page_recursive
 from recursive_copy import recursive_copy
 from empty_dir import empty_directory
 import os
+import sys
+
+if len(sys.argv) == 2:
+    basepath = sys.argv[1]
+else:
+    basepath = "/"
 
 
 def sync_folders():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    public = os.path.join(root, "public")
+    docs = os.path.join(root, "docs")
     static = os.path.join(root, "static")
     if not os.path.exists(static):
         raise FileNotFoundError(f"Static folder not found: {static}")
-    if not os.path.exists(public):
-        os.mkdir(public)
-    empty_directory(public)
-    recursive_copy(static, public)
+    if not os.path.exists(docs):
+        os.mkdir(docs)
+    empty_directory(docs)
+    recursive_copy(static, docs)
     print("Sync complete!")
 
 
@@ -21,8 +27,8 @@ def creating_pages():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     content = os.path.join(root, "content")
     template = os.path.join(root, "template.html")
-    public = os.path.join(root, "public")
-    generate_page_recursive(content, template, public)
+    docs = os.path.join(root, "docs")
+    generate_page_recursive(content, template, docs, basepath)
 
 
 def main():
